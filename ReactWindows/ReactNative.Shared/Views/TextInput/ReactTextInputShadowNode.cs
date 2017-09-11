@@ -1,4 +1,4 @@
-﻿using Facebook.Yoga;
+using Facebook.Yoga;
 using Newtonsoft.Json.Linq;
 using ReactNative.Reflection;
 using ReactNative.UIManager;
@@ -68,9 +68,9 @@ namespace ReactNative.Views.TextInput
         /// </summary>
         public ReactTextInputShadowNode()
         {
-            SetDefaultPadding(EdgeSpacing.Start, s_defaultPaddings[0]);
+            SetDefaultPadding(EdgeSpacing.Left, s_defaultPaddings[0]);
             SetDefaultPadding(EdgeSpacing.Top, s_defaultPaddings[1]);
-            SetDefaultPadding(EdgeSpacing.End, s_defaultPaddings[2]);
+            SetDefaultPadding(EdgeSpacing.Right, s_defaultPaddings[2]);
             SetDefaultPadding(EdgeSpacing.Bottom, s_defaultPaddings[3]);
             SetBorder(EdgeSpacing.All, DefaultBorderWidth);
             MeasureFunction = (node, width, widthMode, height, heightMode) => 
@@ -335,9 +335,9 @@ namespace ReactNative.Views.TextInput
         {
             return new[]
             {
-                GetPadding(YogaEdge.Start),
+                GetPadding(YogaEdge.Left),
                 GetPadding(YogaEdge.Top),
-                GetPadding(YogaEdge.End),
+                GetPadding(YogaEdge.Right),
                 GetPadding(YogaEdge.Bottom),
             };
         }
