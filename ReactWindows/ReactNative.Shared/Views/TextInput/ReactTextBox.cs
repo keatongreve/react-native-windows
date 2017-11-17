@@ -93,6 +93,12 @@ namespace ReactNative.Views.TextInput
             set;
         }
 
+        public bool DimensionsUpdated
+        {
+            get;
+            set;
+        }
+
         public int IncrementEventCount()
         {
             return Interlocked.Increment(ref _eventCount);
@@ -116,6 +122,12 @@ namespace ReactNative.Views.TextInput
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (DimensionsUpdated)
+            {
+                DimensionsUpdated = false;
+                return;
+            }
+
             this.GetReactContext()
                 .GetNativeModule<UIManagerModule>()
                 .EventDispatcher
