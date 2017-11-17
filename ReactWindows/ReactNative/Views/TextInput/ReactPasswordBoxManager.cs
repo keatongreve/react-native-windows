@@ -482,8 +482,6 @@ namespace ReactNative.Views.TextInput
                     new ReactTextChangedEvent(
                         textBox.GetTag(),
                         textBox.Password,
-                        textBox.ActualWidth,
-                        textBox.ActualHeight,
                         0));
         }
 

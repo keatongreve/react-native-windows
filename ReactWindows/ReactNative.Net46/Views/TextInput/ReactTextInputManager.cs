@@ -474,10 +474,9 @@ namespace ReactNative.Views.TextInput
 
         public override void SetDimensions(ReactTextBox view, Dimensions dimensions)
         {
-            Canvas.SetLeft(view, dimensions.X);
-            Canvas.SetTop(view, dimensions.Y);
-            view.Width = dimensions.Width;
-            view.Height = dimensions.Height;
+            base.SetDimensions(view, dimensions);
+            view.MinWidth = dimensions.Width;
+            view.MinHeight = dimensions.Height;
         }
 
         /// <summary>
@@ -517,8 +516,6 @@ namespace ReactNative.Views.TextInput
                     new ReactTextChangedEvent(
                         textBox.GetTag(),
                         textBox.Text,
-                        textBox.ActualWidth,
-                        textBox.ActualHeight,
                         textBox.CurrentEventCount));
         }
 

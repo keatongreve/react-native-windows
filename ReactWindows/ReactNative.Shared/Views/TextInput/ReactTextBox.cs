@@ -14,6 +14,7 @@ namespace ReactNative.Views.TextInput
     {
         private int _eventCount;
         private bool _selectionChangedSubscribed;
+        private bool _sizeChangedSubscribed;
 
         public ReactTextBox()
         {
@@ -53,14 +54,43 @@ namespace ReactNative.Views.TextInput
                     _selectionChangedSubscribed = value;
                     if (_selectionChangedSubscribed)
                     {
-                        this.SelectionChanged += OnSelectionChanged;
+                        SelectionChanged += OnSelectionChanged;
                     }
                     else
                     {
-                        this.SelectionChanged -= OnSelectionChanged;
+                        SelectionChanged -= OnSelectionChanged;
                     }
                 }
             }
+        }
+
+        public bool OnContentSizeChange
+        {
+            get
+            {
+                return _sizeChangedSubscribed;
+            }
+            set
+            {
+                if (value != _sizeChangedSubscribed)
+                {
+                    _sizeChangedSubscribed = value;
+                    if (_sizeChangedSubscribed)
+                    {
+                        SizeChanged += OnSizeChanged;
+                    }
+                    else
+                    {
+                        SizeChanged -= OnSizeChanged;
+                    }
+                }
+            }
+        }
+
+        public bool AutoGrow
+        {
+            get;
+            set;
         }
 
         public int IncrementEventCount()
@@ -71,6 +101,7 @@ namespace ReactNative.Views.TextInput
         protected override void OnGotFocus(RoutedEventArgs e)
         {
             base.OnGotFocus(e);
+
             if (ClearTextOnFocus)
             {
                 Text = "";
@@ -89,12 +120,10 @@ namespace ReactNative.Views.TextInput
                 .GetNativeModule<UIManagerModule>()
                 .EventDispatcher
                 .DispatchEvent(
-                    new ReactTextChangedEvent(
+                    new ReactTextInputContentSizeChangedEvent(
                         this.GetTag(),
-                        Text,
                         e.NewSize.Width,
-                        e.NewSize.Height,
-                        IncrementEventCount()));
+                        e.NewSize.Height));
         }
 
         private void OnSelectionChanged(object sender, RoutedEventArgs e)
