@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using ReactNative.UIManager.Events;
+using System;
 
 namespace ReactNative.Views.TextInput
 {
@@ -12,7 +13,7 @@ namespace ReactNative.Views.TextInput
             int viewTag,
             double width,
             double height)
-            : base(viewTag)
+            : base(viewTag, TimeSpan.FromTicks(Environment.TickCount))
         {
             _height = height;
             _width = width;
