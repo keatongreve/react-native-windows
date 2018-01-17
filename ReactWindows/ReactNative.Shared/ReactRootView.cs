@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
 using ReactNative.Bridge;
+using ReactNative.Modules.Core;
 using ReactNative.Touch;
 using ReactNative.UIManager;
 using System;
 #if WINDOWS_UWP
 using Windows.Foundation;
+using Windows.UI.ViewManagement;
 #else
 using System.Windows;
 #endif
@@ -117,6 +119,19 @@ namespace ReactNative
             {
                 _attachScheduled = true;
             }
+
+            InputPane.GetForCurrentView().Showing += OnInputPaneShowing;
+            InputPane.GetForCurrentView().Hiding += OnInputPaneHiding;
+        }
+
+        private void OnInputPaneShowing(object sender, InputPaneVisibilityEventArgs eventArgs)
+        {
+            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidShow", JObject.FromObject(eventArgs));
+        }
+
+        private void OnInputPaneHiding(object sender, InputPaneVisibilityEventArgs eventArgs)
+        {
+            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidHide", JObject.FromObject(eventArgs));
         }
 
         /// <summary>
