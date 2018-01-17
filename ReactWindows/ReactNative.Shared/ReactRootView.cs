@@ -126,12 +126,28 @@ namespace ReactNative
 
         private void OnInputPaneShowing(object sender, InputPaneVisibilityEventArgs eventArgs)
         {
-            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidShow", JObject.FromObject(eventArgs));
+            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidShow", KeyboardEventData(eventArgs));
         }
 
         private void OnInputPaneHiding(object sender, InputPaneVisibilityEventArgs eventArgs)
         {
-            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidHide", JObject.FromObject(eventArgs));
+            _reactInstanceManager.CurrentReactContext.GetJavaScriptModule<RCTDeviceEventEmitter>().emit("keyboardDidHide", KeyboardEventData(eventArgs));
+        }
+
+        private JObject KeyboardEventData(InputPaneVisibilityEventArgs eventArgs)
+        {
+            var rect = eventArgs.OccludedRect;
+            var obj = JObject.FromObject(new
+            {
+                endCoordinates = new
+                {
+                    screenX = rect.X,
+                    screenY = rect.Y,
+                    width = rect.Width,
+                    height = rect.Height,
+                }
+            });
+            return obj;
         }
 
         /// <summary>
