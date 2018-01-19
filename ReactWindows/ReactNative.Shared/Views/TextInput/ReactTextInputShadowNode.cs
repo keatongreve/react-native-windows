@@ -41,6 +41,7 @@ namespace ReactNative.Views.TextInput
         private float[] _computedPadding;
 
         private bool _multiline;
+        private bool _blurOnSubmit;
         private bool _autoGrow;
         private int _letterSpacing;
         private int _numberOfLines;
@@ -220,6 +221,23 @@ namespace ReactNative.Views.TextInput
             if (_multiline != multiline)
             {
                 _multiline = multiline;
+                MarkUpdated();
+            }
+        }
+
+        /// <summary>
+        /// Sets whether to blur the text input when submitted.
+        /// multiline fields.Note that for multiline fields, setting `blurOnSubmit`
+        /// to `true` means that pressing return will blur the field and trigger the
+        /// `onSubmitEditing` event instead of inserting a newline into the field.
+        /// </summary>
+        /// <param name="blurOnSubmit">The blurOnSubmit flag.</param>
+        [ReactProp("blurOnSubmit")]
+        public void SetBlurOnSubmit(bool blurOnSubmit)
+        {
+            if (_blurOnSubmit != blurOnSubmit)
+            {
+                _blurOnSubmit = blurOnSubmit;
                 MarkUpdated();
             }
         }

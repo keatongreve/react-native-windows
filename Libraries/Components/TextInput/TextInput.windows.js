@@ -441,6 +441,8 @@ var TextInput = React.createClass({
      * Invalid if `multiline={true}` is specified.
      */
     onSubmitEditing: PropTypes.func,
+    
+    onCancelEditing: PropTypes.func,
     /**
      * Callback that is called when a key is pressed.
      * This will be called with `{ nativeEvent: { key: keyValue } }`
@@ -907,6 +909,7 @@ var TextInput = React.createClass({
           onContentSizeChange={this._onContentSizeChange}
           onSelectionChange={this._onSelectionChange}
           onTextInput={this._onTextInput}
+          onCancelEditing={this._onCancelEditing}
           text={this._getText()}
           onScroll={this._onScroll}
         />;
@@ -1044,6 +1047,10 @@ var TextInput = React.createClass({
 
   _onTextInput: function(event: Event) {
     this.props.onTextInput && this.props.onTextInput(event);
+  },
+
+  _onCancelEditing: function(event: Event) {
+    this.props.onCancelEditing && this.props.onCancelEditing(event);
   },
 
   _onScroll: function(event: Event) {

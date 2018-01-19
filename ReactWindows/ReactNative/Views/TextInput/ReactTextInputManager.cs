@@ -82,6 +82,20 @@ namespace ReactNative.Views.TextInput
                         }
                     },
                     {
+                        "topCancelEditing",
+                        new Dictionary<string, object>()
+                        {
+                            {
+                                "phasedRegistrationNames",
+                                new Dictionary<string, string>()
+                                {
+                                    { "bubbled" , "onCancelEditing" },
+                                    { "captured" , "onCancelEditingCapture" }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "topEndEditing",
                         new Dictionary<string, object>()
                         {
@@ -416,8 +430,13 @@ namespace ReactNative.Views.TextInput
         [ReactProp("multiline", DefaultBoolean = false)]
         public void SetMultiline(ReactTextBox view, bool multiline)
         {
-            view.AcceptsReturn = multiline;
             view.TextWrapping = multiline ? TextWrapping.Wrap : TextWrapping.NoWrap;
+        }
+
+        [ReactProp("blurOnSubmit", DefaultBoolean = true)]
+        public void SetBlurOnSubmit(ReactTextBox view, bool blurOnSubmit)
+        {
+            view.AcceptsReturn = !blurOnSubmit;
         }
 
         /// <summary>
@@ -713,9 +732,9 @@ namespace ReactNative.Views.TextInput
         
         private void OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var textBox = (ReactTextBox)sender;
             if (e.Key == VirtualKey.Enter)
             {
-                var textBox = (ReactTextBox)sender;
                 if (!textBox.AcceptsReturn)
                 {
                     e.Handled = true;
@@ -727,6 +746,17 @@ namespace ReactNative.Views.TextInput
                                 textBox.GetTag(),
                                 textBox.Text));
                 }
+            }
+            else if (e.Key == VirtualKey.Escape)
+            {
+                e.Handled = true;
+                textBox.GetReactContext()
+                    .GetNativeModule<UIManagerModule>()
+                    .EventDispatcher
+                    .DispatchEvent(
+                        new ReactTextInputCancelEditingEvent(
+                                textBox.GetTag(),
+                                textBox.Text));
             }
         }
     }
