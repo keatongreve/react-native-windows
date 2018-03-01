@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Text;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -541,6 +542,7 @@ namespace ReactNative.Views.TextInput
             if (commandId == FocusTextInput)
             {
                 view.Focus(FocusState.Programmatic);
+                InputPane.GetForCurrentView().TryShow();
             }
             else if (commandId == BlurTextInput)
             {
