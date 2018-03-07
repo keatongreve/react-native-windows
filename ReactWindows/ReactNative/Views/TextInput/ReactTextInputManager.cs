@@ -542,7 +542,9 @@ namespace ReactNative.Views.TextInput
             if (commandId == FocusTextInput)
             {
                 view.Focus(FocusState.Programmatic);
-                InputPane.GetForCurrentView().TryShow();
+                var inputPane = InputPane.GetForCurrentView();
+                inputPane.TryHide();
+                inputPane.TryShow();
             }
             else if (commandId == BlurTextInput)
             {
